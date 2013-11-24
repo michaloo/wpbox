@@ -1,0 +1,23 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  
+  # using prepared `wpbox` box which comes with installed apache, php-fpm, mysql and wordpress
+  # wordpress admin credentials - username: admin, password: admin
+  config.vm.box = "wpbox"
+
+  # expose ip of the VM (wordpress is installed to `www.wordpress.local` domain)
+  config.vm.network :private_network, ip: "192.168.33.10"
+
+  # make memory limit of the VM higher
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
+
+  # mount source of our theme into wordpress installation (`/var/www` directory)
+  config.vm.synced_folder "src/", "/var/www/wp-content/plugins/example"
+
+  # activate it (to prevent clicking in wordpress admin panel)
+  config.vm.provision "shell", inline: "cd /var/www && wp plugin activate example", privileged: false
+  
+end
