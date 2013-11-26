@@ -1,0 +1,20 @@
+rvm: 
+- 1.9.3
+language: ruby
+script: 
+- vagrant up
+- vagrant halt
+- vagrant package --output wpbox.box
+install: 
+- sudo echo "deb http://download.virtualbox.org/virtualbox/debian precise contrib" | sudo tee -a /etc/apt/sources.list
+- wget http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+- sudo apt-get update
+- sudo apt-get -y install linux-headers-$(uname -r)
+- sudo apt-get -y install virtualbox-4.3
+- VBoxManage -v
+- wget http://files.vagrantup.com/packages/a40522f5fabccb9ddabad03d836e120ff5d14093/vagrant_1.3.5_x86_64.deb
+- sudo dpkg -i vagrant_1.3.5_x86_64.deb
+env: 
+  global: 
+    secure: PXjkiv0vRNSH29lwfdSLQWfYleMmlGrGaRZARaF11rLa2OJ0H6qaroBx/0fiY+zOS1eSruEHZn7pA7hSVQQ6djW9pSWFCpI0dZV+wExJmtpF+uDh9ctoxWUwVv32Nh6DozfoKxuSgA2nWJAcbeFIS31TmPjaU3oa9o75fekvicc=
+after_success: ./scripts/after_success.sh
