@@ -1,12 +1,12 @@
 #!/bin/bash
 
-sudo apt-get install git -y
+sudo apt-get install git curl -y
 
 curl https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh | VERSION="v0.12.1" bash
 echo "export PATH=$HOME/.wp-cli/bin:\$PATH" >> $HOME/.bash_profile
 
-#http://getcomposer.org/download/1.0.0-alpha7/composer.phar
-curl -sS https://getcomposer.org/installer | php
+wget http://getcomposer.org/download/1.0.0-alpha7/composer.phar
+chmod 755 composer.phar
 sudo mv composer.phar /usr/local/bin/composer
 
 echo " --- install node --- "
